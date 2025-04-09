@@ -1,3 +1,2 @@
 # Goroscopic-weather
-
-
+описание проекта
