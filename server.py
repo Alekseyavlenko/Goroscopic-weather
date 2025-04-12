@@ -12,7 +12,7 @@ def index():
                         <title>Goroscopic-weather</title>
                       </head>
                       <body>
-                        <h1>Жди нас, Марс!</h1>
+                        <h1>Добро пожаловать!!</h1>
                         <img src="{url_for('static', filename='img/title_image.png')}" 
                             alt="здесь должна была быть картинка, но не нашлась">
                         <h4>здесь мы будем прогнозировать погоду</br>
