@@ -25,6 +25,7 @@ def index():
 
 @app.route('/registration')
 def registration():
+    from weather_request import pogoda_request
     return f""""""
 
 
