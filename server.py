@@ -15,10 +15,27 @@ def index():
                         <h1>Добро пожаловать!!</h1>
                         <img src="{url_for('static', filename='img/title_image.png')}" 
                             alt="здесь должна была быть картинка, но не нашлась">
+                        <img src="" 
+                            alt="здесь должна была быть картинка, но не нашлась">
                         <h4>здесь мы будем прогнозировать погоду</br>
                         (с гороскопом!!!)</h4>
                       </body>
                     </html>"""
+
+
+@app.route('/registration')
+def registration():
+    return f""""""
+
+
+@app.route('/weather')
+def weather():
+    return f""""""
+
+
+@app.route('/goroscope')
+def goroscope():
+    return f""""""
 
 
 if __name__ == '__main__':
