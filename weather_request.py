@@ -14,4 +14,4 @@ def pogoda_request(sity, country):
         print("Exception (find):", e)
 
 
-pogoda_request('Москва', 'Россия')
+
