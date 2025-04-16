@@ -48,12 +48,17 @@ def enter():
     return f""""""
 
 
-@app.route('/weather')
+@app.route('/<username>/account')
+def account(username):
+    return f"""{username}"""
+
+
+@app.route('/<username>/weather')
 def weather():
     return f""""""
 
 
-@app.route('/goroscope')
+@app.route('/<username>/goroscope')
 def goroscope():
     return f""""""
 
