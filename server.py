@@ -5,17 +5,19 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    style = "body {background-color: #002f55; }"
+    background = "body {background-color: #002f55; }"
+    text = "h1 {color: #ffffff; } h3 {color: #ffffff; } h4 {color: #ffffff; } h2 {color: #000000; }"
     return f"""<!doctype html>
                     <html lang="en">
                       <head>
                         <meta charset="utf-8">
                         <title>Goroscopic-weather</title>
-                        <style> {style} </style>
+                        <style> {background} {text} </style>
+                        <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}" />
                       </head>
                       <body>
                         <h1 class="">Добро пожаловать!!</h1>
-                        <img src="{url_for('static', filename='img/title_image.png')}" 
+                        <img id="greeting_image" src="{url_for('static', filename='img/title_image.png')}" 
                             alt="здесь должна была быть картинка, но не нашлась">
                         <br>
                         <p>
