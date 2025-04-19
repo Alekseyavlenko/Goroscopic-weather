@@ -1,4 +1,4 @@
-from flask import Flask, url_for
+from flask import Flask, url_for, request
 
 app = Flask(__name__)
 
@@ -49,20 +49,37 @@ def registration():
 
 @app.route('/enter')
 def enter():
-    return f""""""
+    if request.method == 'GET':
+        return f""" <form method="post">
+            <label for="name">First Name:</label>
+            <input type="text" id="name" name="name" placeholder="name">
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password" placeholder="password">
+            <button type="submit">Enter</button>"""
+    elif request.method == 'POST':
+        return f"""{request.form['name']}"""
 
 
-@app.route('/<username>/account')
+@app.route('/account')
 def account(username):
     return f"""{username}"""
 
 
-@app.route('/<username>/weather')
+@app.route('/weather', methods=['POST', 'GET'])
 def weather():
-    return f""""""
+    if request.method == 'GET':
+        return f""" <form method="post">
+            <label for="city">Город</label>
+            <input type="text" id="city" name="city" placeholder="city">
+            <label for="country">Страна</label>
+            <input type="text" id="country" name="country" placeholder="country">
+            <button type="submit">Погода</button>"""
+    elif request.method == 'POST':
+        from weather_request import pogoda_request
+        return f"""{pogoda_request(request.form['city'], request.form['country'])}"""
 
 
-@app.route('/<username>/goroscope')
+@app.route('/goroscope')
 def goroscope():
     return f""""""
 
