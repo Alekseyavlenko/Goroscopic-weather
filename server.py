@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request
+from flask import Flask, url_for, request, redirect
 
 app = Flask(__name__)
 
@@ -58,7 +58,7 @@ def registration():
         wants_horoscope = 'wants_horoscope' in request.form
 
 
-@app.route('/enter')
+@app.route('/enter', methods=['GET', 'POST', ])
 def enter():
     if request.method == 'GET':
         return f""" <form method="post">
@@ -68,12 +68,29 @@ def enter():
             <input type="text" id="password" name="password" placeholder="password">
             <button type="submit">Enter</button>"""
     elif request.method == 'POST':
-        return f"""{request.form['name']}"""
+        import csv
+        with open('data/users.csv', encoding="utf8") as users_file:
+            reader = csv.reader(users_file, delimiter=';', quotechar='"')
+            title = next(reader)
+            for i in reader:
+                h = request.form['name']
+                if h == i[1] and request.form['password'] == i[2]:
+                    return redirect(f'http://127.0.0.1:8080/account/{h}')
+            return f"""Данный пользователь не найден.<br>Неправильное имя или пароль"""
 
 
-@app.route('/account')
+@app.route('/account/<username>', methods=['POST', 'GET'])
 def account(username):
-    return f"""{username}"""
+    if request.method == 'GET':
+        return f""" <form method="post">
+            <label for="city">Город</label>
+            <input type="text" id="city" name="city" placeholder="city">
+            <label for="country">Страна</label>
+            <input type="text" id="country" name="country" placeholder="country">
+            <button type="submit">Погода</button>"""
+    elif request.method == 'POST':
+        from weather_request import pogoda_request
+        return f"""{pogoda_request(request.form['city'], request.form['country'])}"""
 
 
 @app.route('/weather', methods=['POST', 'GET'])
