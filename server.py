@@ -43,29 +43,19 @@ def index():
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return f"""
+            <form method="post">
+                <label>Имя пользователя: <input type="text" name="username" required></label><br>
+                <label>Пароль: <input type="password" name="password" required></label><br>
+                <label>Нужен ли гороскоп? <input type="checkbox" name="wants_horoscope" checked></label><br>
+                <input type="submit" value="Зарегистрироваться">
+            </form>
+                """
+    elif request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         wants_horoscope = 'wants_horoscope' in request.form
-
-        if User.query.filter_by(username=username).first():
-            return "Пользователь с таким именем уже существует!"
-
-        user = User(username=username, wants_horoscope=wants_horoscope)
-        user.set_password(password)
-        db.session.add(user)
-        db.session.commit()
-        return f"Пользователь {username} успешно зарегистрирован! <a href='/enter'>Войти</a>"
-
-    return render_template_string("""
-        <h2>Регистрация</h2>
-        <form method="post">
-            <label>Имя пользователя: <input type="text" name="username" required></label><br>
-            <label>Пароль: <input type="password" name="password" required></label><br>
-            <label>Нужен ли гороскоп? <input type="checkbox" name="wants_horoscope" checked></label><br>
-            <input type="submit" value="Зарегистрироваться">
-        </form>
-    """)
 
 
 @app.route('/enter')
