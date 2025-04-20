@@ -53,9 +53,12 @@ def registration():
             </form>
                 """
     elif request.method == 'POST':
+        from registration import save_user
         username = request.form['username']
         password = request.form['password']
         wants_horoscope = 'wants_horoscope' in request.form
+        save_user(username, password, 1 if wants_horoscope else 0)
+        return redirect(f'http://127.0.0.1:8080/account/{username}')
 
 
 @app.route('/enter', methods=['GET', 'POST', ])
