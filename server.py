@@ -69,7 +69,7 @@ def enter():
             <input type="text" id="name" name="name" placeholder="name">
             <label for="password">Password:</label>
             <input type="text" id="password" name="password" placeholder="password">
-            <button type="submit">Enter</button>"""
+            <button type="submit">Войти</button>"""
     elif request.method == 'POST':
         import csv
         with open('data/users.csv', encoding="utf8") as users_file:
@@ -84,6 +84,28 @@ def enter():
 
 @app.route('/account/<username>', methods=['POST', 'GET'])
 def account(username):
+    import csv
+    with open('data/users.csv', 'r', encoding='utf-8') as file:
+        reader = csv.reader(file, delimiter=';', quotechar='"')
+        title = next(reader)
+        goroscop = ''
+        for row in reader:
+            if username == row[1]:
+                if row[-1]:
+                    goroscop = f"""<h4>или</h4>
+                        <a href="http://127.0.0.1:8080/goroscope/{username}>"
+                        <button type=submit><h2>Гороскоп<h2></button>
+                        </a>"""
+                break
+    return f"""<a href="http://127.0.0.1:8080/weather/{username}">
+                        <button type=submit><h2>Погода<h2></button>
+                        </a>
+                        {goroscop}
+                        """
+
+
+@app.route('/weather/<username>', methods=['POST', 'GET'])
+def weather(username):
     if request.method == 'GET':
         return f""" <form method="post">
             <label for="city">Город</label>
@@ -96,21 +118,7 @@ def account(username):
         return f"""{pogoda_request(request.form['city'], request.form['country'])}"""
 
 
-@app.route('/weather', methods=['POST', 'GET'])
-def weather():
-    if request.method == 'GET':
-        return f""" <form method="post">
-            <label for="city">Город</label>
-            <input type="text" id="city" name="city" placeholder="city">
-            <label for="country">Страна</label>
-            <input type="text" id="country" name="country" placeholder="country">
-            <button type="submit">Погода</button>"""
-    elif request.method == 'POST':
-        from weather_request import pogoda_request
-        return f"""{pogoda_request(request.form['city'], request.form['country'])}"""
-
-
-@app.route('/goroscope')
+@app.route('/goroscope/<username>')
 def goroscope():
     return f""""""
 

@@ -19,5 +19,4 @@ def get_next_id():
         return sum(1 for _ in reader) - 1
 
 
-save_user("third_user", "qwerty12345", 1)
-print('k')
+
