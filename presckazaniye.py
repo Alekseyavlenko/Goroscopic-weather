@@ -12,3 +12,5 @@ def get_random_prediction(zodiac_sign):
         return random.choice(predictions)[0]
     else:
         return
+
+

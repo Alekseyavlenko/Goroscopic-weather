@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, redirect
+from flask import Flask, url_for, request, redirect, render_template
 
 app = Flask(__name__)
 
@@ -93,7 +93,7 @@ def account(username):
             if username == row[1]:
                 if row[-1]:
                     goroscop = f"""<h4>или</h4>
-                        <a href="http://127.0.0.1:8080/goroscope/{username}>"
+                        <a href="http://127.0.0.1:8080/goroscope/{username}">
                         <button type=submit><h2>Гороскоп<h2></button>
                         </a>"""
                 break
@@ -118,9 +118,13 @@ def weather(username):
         return f"""{pogoda_request(request.form['city'], request.form['country'])}"""
 
 
-@app.route('/goroscope/<username>')
-def goroscope():
-    return f""""""
+@app.route('/goroscope/<username>', methods=['POST', 'GET'])
+def goroscope(username):
+    if request.method == 'GET':
+        return render_template('goroscope.html', username=username)
+    elif request.method == 'POST':
+        from presckazaniye import get_random_prediction
+        return get_random_prediction(request.form['class'])
 
 
 if __name__ == '__main__':
