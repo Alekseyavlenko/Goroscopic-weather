@@ -53,11 +53,11 @@ def registration():
             </form>
                 """
     elif request.method == 'POST':
-        from registration import save_user
+        from unite_file import save_user_sqlite
         username = request.form['username']
         password = request.form['password']
         wants_horoscope = 'wants_horoscope' in request.form
-        save_user(username, password, 1 if wants_horoscope else 0)
+        save_user_sqlite(username, password, 1 if wants_horoscope else 0)
         return redirect(f'http://127.0.0.1:8080/account/{username}')
 
 
@@ -71,15 +71,11 @@ def enter():
             <input type="text" id="password" name="password" placeholder="password">
             <button type="submit">Войти</button>"""
     elif request.method == 'POST':
-        import csv
-        with open('data/users.csv', encoding="utf8") as users_file:
-            reader = csv.reader(users_file, delimiter=';', quotechar='"')
-            title = next(reader)
-            for i in reader:
-                h = request.form['name']
-                if h == i[1] and request.form['password'] == i[2]:
-                    return redirect(f'http://127.0.0.1:8080/account/{h}')
-            return f"""Данный пользователь не найден.<br>Неправильное имя или пароль"""
+        from check import check_user_info
+        h = request.form['name']
+        if check_user_info(h, request.form['password']):
+            return redirect(f'http://127.0.0.1:8080/account/{h}')
+        return f"""Данный пользователь не найден.<br>Неправильное имя или пароль"""
 
 
 @app.route('/account/<username>', methods=['POST', 'GET'])
