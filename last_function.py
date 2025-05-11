@@ -1,16 +1,18 @@
-import csv
+import sqlite3
 
 
 def check_user_horoscope(username, password):
-    try:
-        with open('data/users.csv', encoding='utf-8') as users_file:
-            reader = csv.reader(users_file, delimiter=';', quotechar='"')
-            next(reader)
-            for row in reader:
-                if row[1] == username and row[2] == password:
-                    return bool(int(row[3]))
-        return None  # пользователь не найден
-    except FileNotFoundError:
-        return None  # файл не найден
+    conn = sqlite3.connect('goroscope.db')
+    cursor = conn.cursor()
+    cursor.execute(
+        'SELECT wants_horoscope FROM users WHERE username = ? AND password = ?',
+        (username, password))
+    result = cursor.fetchone()
+    conn.close()
 
-
+    # если пользователь найден (не None)
+    if result is not None:
+        return bool(result[0])
+    # если пользователь не найден (None)
+    else:
+        return None
