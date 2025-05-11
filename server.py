@@ -115,12 +115,12 @@ def weather(username):
 
 
 @app.route('/goroscope/<username>', methods=['POST', 'GET'])
-def goroscope(username):
+def goroscope(username='oooooo'):
     if request.method == 'GET':
         return render_template('goroscope.html', username=username)
     elif request.method == 'POST':
         from presckazaniye import get_random_prediction
-        return get_random_prediction(request.form['class'])
+        return render_template('nice_sentence.html', frase=get_random_prediction(request.form['class']))
 
 
 if __name__ == '__main__':
