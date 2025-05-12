@@ -73,27 +73,23 @@ def enter():
     elif request.method == 'POST':
         from check import check_user_info
         h = request.form['name']
-        if check_user_info(h, request.form['password']):
+        f = request.form['password']
+        if check_user_info(h, f):
             return redirect(f'http://127.0.0.1:8080/account/{h}')
         return f"""Данный пользователь не найден.<br>Неправильное имя или пароль"""
 
 
 @app.route('/account/<username>', methods=['POST', 'GET'])
 def account(username):
-    import csv
-    with open('data/users.csv', 'r', encoding='utf-8') as file:
-        reader = csv.reader(file, delimiter=';', quotechar='"')
-        title = next(reader)
-        goroscop = ''
-        for row in reader:
-            if username == row[1]:
-                if row[-1]:
-                    goroscop = f"""<h4>или</h4>
+    from last_function import check_user_horoscope
+    goroscop = ''
+    if check_user_horoscope(username):
+        goroscop = f"""<h4>или</h4>
                         <a href="http://127.0.0.1:8080/goroscope/{username}">
                         <button type=submit><h2>Гороскоп<h2></button>
                         </a>"""
-                break
-    return f"""<a href="http://127.0.0.1:8080/weather/{username}">
+
+        return f"""<a href="http://127.0.0.1:8080/weather/{username}">
                         <button type=submit><h2>Погода<h2></button>
                         </a>
                         {goroscop}

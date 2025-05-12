@@ -1,12 +1,12 @@
 import sqlite3
 
 
-def check_user_horoscope(username, password):
+def check_user_horoscope(username):
     conn = sqlite3.connect('goroscope.db')
     cursor = conn.cursor()
     cursor.execute(
-        'SELECT wants_horoscope FROM users WHERE username = ? AND password = ?',
-        (username, password))
+        'SELECT wants_horoscope FROM users WHERE username = ?',
+        (username, ))
     result = cursor.fetchone()
     conn.close()
 
